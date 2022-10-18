@@ -30,7 +30,7 @@ def	print_header(file, c_type):
 		file.write(component)
 		file.write("\n")
 	file.write("\n")
-	
+
 
 def	makefile_gen(project_name):
 	mk_comps=[]
@@ -95,13 +95,27 @@ def	cpp_generator(project_name):
 	file.close()
 	print("\tCpp file done")
 
+def generator(args):
+	if args.M is True:
+		makefile_gen(args.p_name)
+	if args.H is True:
+		hpp_generator(args.p_name)
+	if args.C is True:
+		cpp_generator(args.p_name)
 
-if __name__ == '__main__':
+
+def parser():
 	parser = argparse.ArgumentParser();
 	parser.add_argument("p_name", help="Project name. USAGE: [basefiles_gen.py project_name]");
+	parser.add_argument("-M", "-makefile", action='store_true', help="Only generates Makefile")
+	parser.add_argument("-C", "-cpp", action='store_true', help="Only generates Cpp")
+	parser.add_argument("-H", "-hpp", action='store_true', help="Only generates Hpp")
 	args = parser.parse_args()
+	return args
+
+
+if __name__ == '__main__':
+	args = parser()
 	print('Base files for cpp generator:\n')
-	makefile_gen(args.p_name)
-	hpp_generator(args.p_name)
-	cpp_generator(args.p_name)
+	generator(args)
 	print("\nAll done")
