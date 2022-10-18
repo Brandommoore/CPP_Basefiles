@@ -30,25 +30,7 @@ def	print_header(file, c_type):
 		file.write(component)
 		file.write("\n")
 	file.write("\n")
-
-def	print_cpp_hpp_header(file):
-	header=[]
-	header.append('/*' + " **************************************************************************** " + "*/")
-	header.append('/*' + "                                                                              " + "*/")
-	header.append('/*' + "                                                         :::      ::::::::    " + "*/")
-	header.append('/*' + "    basefiles_gen.py                                   :+:      :+:    :+:    " + "*/")
-	header.append('/*' + "                                                     +:+ +:+         +:+      " + "*/")
-	header.append('/*' + "    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         " + "*/")
-	header.append('/*' + "                                                 +#+#+#+#+#+   +#+            " + "*/")
-	header.append('/*' + "    Created: 2022/10/18 18:56:07 by marvin            #+#    #+#              " + "*/")
-	header.append('/*' + "    Updated: 2022/10/18 18:56:07 by marvin           ###   ########.fr        " + "*/")
-	header.append('/*' + "                                                                              " + "*/")
-	header.append('/*' + " **************************************************************************** " + "*/")
 	
-	for component in header:
-		file.write(component)
-		file.write("\n")
-	file.write("\n")
 
 def	makefile_gen(project_name):
 	mk_comps=[]
