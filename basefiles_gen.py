@@ -5,19 +5,26 @@ from ast import arg
 from io import open
 import os
 
-def	print_makefile_header(file):
+def	print_header(file, c_type):
+	if c_type == 'm':
+		init_c = '#'
+		end_c = '#'
+	if c_type == 'x':
+		init_c = '/*'
+		end_c = '*/'
+
 	header=[]
-	header.append('#' + " **************************************************************************** " + "#")
-	header.append('#' + "                                                                              " + "#")
-	header.append('#' + "                                                         :::      ::::::::    " + "#")
-	header.append('#' + "    basefiles_gen.py                                   :+:      :+:    :+:    " + "#")
-	header.append('#' + "                                                     +:+ +:+         +:+      " + "#")
-	header.append('#' + "    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         " + "#")
-	header.append('#' + "                                                 +#+#+#+#+#+   +#+            " + "#")
-	header.append('#' + "    Created: 2022/10/18 18:56:07 by marvin            #+#    #+#              " + "#")
-	header.append('#' + "    Updated: 2022/10/18 18:56:07 by marvin           ###   ########.fr        " + "#")
-	header.append('#' + "                                                                              " + "#")
-	header.append('#' + " **************************************************************************** " + "#")
+	header.append(init_c + " **************************************************************************** " + end_c)
+	header.append(init_c + "                                                                              " + end_c)
+	header.append(init_c + "                                                         :::      ::::::::    " + end_c)
+	header.append(init_c + "    basefiles_gen.py                                   :+:      :+:    :+:    " + end_c)
+	header.append(init_c + "                                                     +:+ +:+         +:+      " + end_c)
+	header.append(init_c + "    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         " + end_c)
+	header.append(init_c + "                                                 +#+#+#+#+#+   +#+            " + end_c)
+	header.append(init_c + "    Created: 2022/10/18 18:56:07 by marvin            #+#    #+#              " + end_c)
+	header.append(init_c + "    Updated: 2022/10/18 18:56:07 by marvin           ###   ########.fr        " + end_c)
+	header.append(init_c + "                                                                              " + end_c)
+	header.append(init_c + " **************************************************************************** " + end_c)
 	
 	for component in header:
 		file.write(component)
@@ -63,7 +70,7 @@ def	makefile_gen(project_name):
 	mk_comps.append('.PHONY: all clean fclean re')
 
 	file = open("Makefile", 'w')
-	print_makefile_header(file)
+	print_header(file, 'm')
 
 	for component in mk_comps:
 		file.write(component)
@@ -83,7 +90,7 @@ def	hpp_generator(project_name):
 
 	filename = str(project_name + ".hpp")
 	file = open(filename, 'w')
-	print_cpp_hpp_header(file)
+	print_header(file, 'x')
 	for component in hpp_comps:
 		file.write(component)
 	file.close()
@@ -99,7 +106,7 @@ def	cpp_generator(project_name):
 
 	filename = str(project_name + ".cpp")
 	file = open(filename, 'w')
-	print_cpp_hpp_header(file)
+	print_header(file, 'x')
 	file.write(include_name)
 	for component in cpp_comps:
 		file.write(component)
