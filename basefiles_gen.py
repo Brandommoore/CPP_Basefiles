@@ -109,11 +109,8 @@ def	cpp_generator(project_name):
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser();
-	parser.add_argument("p_name", help="Project name");
+	parser.add_argument("p_name", help="Project name. USAGE: [basefiles_gen.py project_name]");
 	args = parser.parse_args()
-	if args.p_name is None:
-		print("Please, insert a name project. Usage: [-p_name=project_name]")
-		exit()
 	print('Base files for cpp generator:\n')
 	makefile_gen(args.p_name)
 	hpp_generator(args.p_name)
