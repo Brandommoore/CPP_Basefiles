@@ -105,11 +105,22 @@ def generator(args):
 
 
 def parser():
-	parser = argparse.ArgumentParser();
+	parser = argparse.ArgumentParser(
+		formatter_class=argparse.RawDescriptionHelpFormatter,
+		description="A basefiles generator for cpp modules ",
+		epilog="==================================================\n\
+This is a generator of basefiles for cpp modules. By default it generates a Makefile, a .cpp and a .hpp ready to compile.\n\
+If, for example, we only want to generate a Makefile, we would do it as follows, and so on with the rest:\n\
+	basefiles_gen.py project_name -M\n\n\
+If we want to generate only the .cpp and .hpp files:\n\
+	basefiles_gen.py project_name -C -H\n\n\
+By mcordoba (@brandommoore) with ❤"
+	);
 	parser.add_argument("p_name", help="Project name. USAGE: [basefiles_gen.py project_name]");
 	parser.add_argument("-M", "-makefile", action='store_true', help="Only generates Makefile")
 	parser.add_argument("-C", "-cpp", action='store_true', help="Only generates Cpp")
 	parser.add_argument("-H", "-hpp", action='store_true', help="Only generates Hpp")
+
 	args = parser.parse_args()
 	return args
 
