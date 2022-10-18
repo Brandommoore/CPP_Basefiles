@@ -1,6 +1,7 @@
 # Base files for CPP generator
 
 import argparse
+from ast import arg
 from io import open
 import os
 
@@ -42,13 +43,6 @@ def	print_cpp_hpp_header(file):
 		file.write("\n")
 	file.write("\n")
 
-def	names_generator(project_name):
-	names={}
-	names["NAME"] = project_name
-	names["CPP"] = str(project_name + '.cpp')
-	names["HPP"] = str(project_name + '.hpp')
-	return names
-
 def	makefile_gen(project_name):
 	mk_comps=[]
 	mk_name = 'NAME = ' + project_name
@@ -71,11 +65,12 @@ def	makefile_gen(project_name):
 	file = open("Makefile", 'w')
 	print_makefile_header(file)
 
-	# Printing components
 	for component in mk_comps:
 		file.write(component)
 		file.write("\n\n")
 	file.close()
+	print("\tMakefile done")
+
 
 def	hpp_generator(project_name):
 	hpp_comps=[]
@@ -92,6 +87,8 @@ def	hpp_generator(project_name):
 	for component in hpp_comps:
 		file.write(component)
 	file.close()
+	print("\tHpp file done")
+
 
 def	cpp_generator(project_name):
 	cpp_comps=[]
@@ -99,7 +96,6 @@ def	cpp_generator(project_name):
 	cpp_comps.append("int\tmain(int argc, char *argv[])\n")
 	cpp_comps.append("{\n\n")
 	cpp_comps.append("}\n")
-	#cpp_comps.append("#endif")
 
 	filename = str(project_name + ".cpp")
 	file = open(filename, 'w')
@@ -108,13 +104,18 @@ def	cpp_generator(project_name):
 	for component in cpp_comps:
 		file.write(component)
 	file.close()
+	print("\tCpp file done")
 
 
 if __name__ == '__main__':
-	print('Base files for cpp generator:')
-	project_name = input('\tInsert project name: ')
-	names = names_generator(project_name)
-	print(names)
-	makefile_gen(project_name)
-	hpp_generator(project_name)
-	cpp_generator(project_name)
+	parser = argparse.ArgumentParser();
+	parser.add_argument("p_name", help="Project name");
+	args = parser.parse_args()
+	if args.p_name is None:
+		print("Please, insert a name project. Usage: [-p_name=project_name]")
+		exit()
+	print('Base files for cpp generator:\n')
+	makefile_gen(args.p_name)
+	hpp_generator(args.p_name)
+	cpp_generator(args.p_name)
+	print("\nAll done")
