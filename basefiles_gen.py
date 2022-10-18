@@ -102,6 +102,10 @@ def generator(args):
 		hpp_generator(args.p_name)
 	if args.C is True:
 		cpp_generator(args.p_name)
+	if args.M is False and args.H is False and args.C is False:
+		makefile_gen(args.p_name)
+		hpp_generator(args.p_name)
+		cpp_generator(args.p_name)
 
 
 def parser():
