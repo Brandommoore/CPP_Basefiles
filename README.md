@@ -14,3 +14,21 @@ If we want to generate only the .cpp and .hpp files:
 	basefiles_gen.py project_name -C -H
 	
 By mcordoba (@brandommoore) with ❤
+
+## Help
+```bash
+usage: basefiles_gen.py [-h] [-M] [-C] [-H] p_name
+
+A basefiles generator for cpp modules
+
+positional arguments:
+  p_name         Project name. USAGE: [basefiles_gen.py project_name]
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -M, -makefile  Only generates Makefile
+  -C, -cpp       Only generates Cpp
+  -H, -hpp       Only generates Hpp
+
+==================================================
+```
