@@ -63,9 +63,9 @@ def	makefile_gen(project_name):
 
 def	hpp_generator(project_name):
 	hpp_comps=[]
-	header_name = project_name.upper() + "_H"
-	hpp_comps.append(str("#ifndef " + header_name + "\n"))
-	hpp_comps.append(str("# define " + header_name + "\n"))
+	header_name = project_name.upper() + "_H__"
+	hpp_comps.append(str("#ifndef __" + header_name + "\n"))
+	hpp_comps.append(str("# define __" + header_name + "\n"))
 	hpp_comps.append("\n")
 	hpp_comps.append("#include <iostream>\n")
 	hpp_comps.append("\n#endif\n")
