@@ -84,6 +84,7 @@ def	cpp_generator(project_name):
 	include_name = '#include "' + project_name + '.hpp"\n\n'
 	cpp_comps.append("int\tmain(int argc, char *argv[])\n")
 	cpp_comps.append("{\n\n")
+	cpp_comps.append("\t(void)argc;\n\t(void)argv;\n\treturn (0);\n")
 	cpp_comps.append("}\n")
 
 	filename = str(project_name + ".cpp")
