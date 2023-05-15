@@ -8,7 +8,9 @@ import os
 class File_data():
 	filename = ""
 	class_name = ""
-	methods = []
+	file_lines = []
+	in_methods = []
+	out_methods = []
 
 #################################
 ##	Program parser
@@ -44,19 +46,36 @@ def	program_parser():
 #################################
 
 def	get_class_name(file_lines):
-	'''Gat class name and return it name'''
-	class_name = ""
+	'''Get class name and return it name'''
 	for line in file_lines:
 		if "class" in line:
 			split_line = line.split()
 			return split_line[-1]
 
+def	find_methods(file_data):
+	'''Find methods and allocate in file_data'''
+	f_data = file_data
+	bracket = 0
+	for line in f_data.file_lines:
+		if "{" in line or "}" in line:
+			bracket+=1
+		if ("(" in line and ")" in line) and bracket < 2:
+			print(f"Class methods {line}", end='')
+		if ("(" in line and ")" in line) and bracket >= 2:
+			print(f"OUT Class methods {line}", end='')
+
+
 def	file_parser(file_data):
-	'''Fond class and methods and save it in file_data'''
-	file_lines = read_file(file_data.filename);
-	for line in file_lines:
-		print(line, end='')
-	print(f"Class name --> {get_class_name(file_lines)}")
+	'''Find class and methods and save it in file_data'''
+	file_data.file_lines = read_file(file_data.filename);
+	file_data.class_name = get_class_name(file_data.file_lines);
+	find_methods(file_data)
+
+
+
+	#for line in file_lines:
+	#	print(line, end='')
+	print(f"Class name --> {file_data.class_name}")
 
 if __name__ == '__main__':
 	file_data = File_data()
