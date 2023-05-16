@@ -32,3 +32,12 @@ optional arguments:
 
 ==================================================
 ```
+
+---------------------------
+# Cpp_generator
+Cpp_generator is a .cpp file generator from .hpp file. Only admits .hpp files.
+
+## Usage
+This generator only admits one .hpp file. Their usage is:
+
+	cpp_generator.py File.hpp
