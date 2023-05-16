@@ -87,17 +87,93 @@ def	file_parser(file_data):
 	#print_values(file_data.in_methods)
 	#print("OUT METHOD")
 	#print_values(file_data.out_methods)
+	return file_data
+
+#################################
+##	CPP FILE Generator
+#################################
+
+def	format_method(class_name: str, method: str):
+	'''Format method adding the name_class to method and return it
+	   TYPE: [IN] [OUT] (method)
+	   CLASS_NAME: name of the class
+	   METHOD: method to format
+	'''
+	final_method = []
+	nb_tabs = 0
+	i = 0
+
+	split_method = method.split()
+	nb_tabs = count_tabs(method)
+	final_method.append(split_method[0])
+	final_method.append(print_tabs(nb_tabs))
+	final_method.append(class_name + "::")
+	for word in split_method:
+		if i == 0:
+			i+=1
+		elif i >= 1:
+			final_method.append(word)
+	return remove_semicolon("".join(final_method))
 
 
-	#for line in file_lines:
-	#	print(line, end='')
-	print(f"Class name --> {file_data.class_name}")
+def	format_all_methods(type_m, methods_list: list, class_name):
+	'''Iterate formats and call format_method every method
+		   TYPE: [IN] [OUT] (method)'''
+	final_methods = []
+	if type_m == "IN":
+		for method in methods_list:
+			final_methods.append(format_method(class_name, method))
+	elif type_m == "OUT":
+		for method in methods_list:
+			final_methods.append(remove_semicolon(method))
+	return final_methods
+
+def count_tabs(string):
+	'''Count the nuber of tabs in a string'''
+	tab_count = 0
+	for char in string:
+		if char == '\t':
+			tab_count += 1
+	return tab_count
+
+def print_tabs(nb_tabs: int):
+	'''Return a string with nb tabs'''
+	string_tab = []
+	for i in range(nb_tabs):
+		string_tab.append("\t")
+	return "".join(string_tab)
+
+def	remove_semicolon(string):
+	'''Remove semicolon of a string'''
+	result = ""
+	for char in string:
+		if char != ';':
+			result += char
+	return result
+
+def	file_generator(file_data):
+	'''Generate the main content of the CPP file'''
+	main_content = []
+	#file_data.out_methods = format_all_methods("OUT", file_data.out_methods, file_data.class_name)
+	#print_values(file_data.out_methods)
+
+	print(format_method(file_data.class_name, file_data.in_methods[-1]))
+
+
+
+
+
+
+#################################
+##	Main
+#################################
 
 if __name__ == '__main__':
 	file_data = File_data()
 	p_parser = program_parser()
 	file_data.filename = p_parser.hpp_file
 	print(f"Cpp generator from {file_data.filename}")
-	file_parser(file_data)
+	file_data = file_parser(file_data)
+	file_generator(file_data)
 
 
