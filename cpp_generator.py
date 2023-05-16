@@ -212,7 +212,7 @@ def	write_cpp_file(file_data):
 	for method in file_data.in_methods:
 		file.write(method)
 		file.write("{\n\n}\n\n")
-	if file_data.out_methods != None:
+	if file_data.out_methods != None and len(file_data.out_methods) > 0:
 		file.write("\n// Other functions in " + file_data.filename + " outer class "
 		+ file_data.class_name + "\n\n")
 		for method in file_data.out_methods:
