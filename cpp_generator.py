@@ -105,14 +105,20 @@ def	format_method(class_name: str, method: str):
 
 	split_method = method.split()
 	nb_tabs = count_tabs(method)
-	final_method.append(split_method[0])
-	final_method.append(print_tabs(nb_tabs))
-	final_method.append(class_name + "::")
-	for word in split_method:
-		if i == 0:
-			i+=1
-		elif i >= 1:
+	if class_name in split_method[0]:
+		final_method.append(class_name + "::")
+		for word in split_method:
 			final_method.append(word)
+	elif class_name is not split_method[0]:
+		final_method.append(split_method[0])
+		final_method.append(print_tabs(nb_tabs))
+		final_method.append(class_name + "::")
+		for word in split_method:
+			if i == 0:
+				i+=1
+			elif i >= 1:
+				final_method.append(word)
+	final_method.append("\n")
 	return remove_semicolon("".join(final_method))
 
 
@@ -156,9 +162,8 @@ def	file_generator(file_data):
 	main_content = []
 	#file_data.out_methods = format_all_methods("OUT", file_data.out_methods, file_data.class_name)
 	#print_values(file_data.out_methods)
-
-	print(format_method(file_data.class_name, file_data.in_methods[-1]))
-
+	file_data.in_methods = format_all_methods("IN", file_data.in_methods, file_data.class_name)
+	print_values(file_data.in_methods)
 
 
 
