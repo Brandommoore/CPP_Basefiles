@@ -5,12 +5,53 @@ from ast import arg
 from io import open
 import os
 
+#################################
+##	Main Class
+#################################
+
 class File_data():
 	filename = ""
 	class_name = ""
 	file_lines = []
 	in_methods = []
 	out_methods = []
+
+
+#################################
+##	Utils
+#################################
+
+def	write_header(file, c_type):
+	'''Write header into a file
+	   file: File for write
+	   c_type: [m] --> Makefile
+		   [x] --> Cpp & Hpp
+	'''
+	if c_type == 'm':
+		init_c = '#'
+		end_c = '#'
+	if c_type == 'x':
+		init_c = '/*'
+		end_c = '*/'
+
+	header=[]
+	header.append(init_c + " **************************************************************************** " + end_c)
+	header.append(init_c + "                                                                              " + end_c)
+	header.append(init_c + "                                                         :::      ::::::::    " + end_c)
+	header.append(init_c + "    cpp_from_hpp_gen.py                                :+:      :+:    :+:    " + end_c)
+	header.append(init_c + "                                                     +:+ +:+         +:+      " + end_c)
+	header.append(init_c + "    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         " + end_c)
+	header.append(init_c + "                                                 +#+#+#+#+#+   +#+            " + end_c)
+	header.append(init_c + "    Created: 2022/10/18 18:56:07 by marvin            #+#    #+#              " + end_c)
+	header.append(init_c + "    Updated: 2022/10/18 18:56:07 by marvin           ###   ########.fr        " + end_c)
+	header.append(init_c + "                                                                              " + end_c)
+	header.append(init_c + " **************************************************************************** " + end_c)
+	
+	for component in header:
+		file.write(component)
+		file.write("\n")
+	file.write("\n")
+
 
 #################################
 ##	Program parser
@@ -83,10 +124,6 @@ def	file_parser(file_data):
 	file_data.file_lines = read_file(file_data.filename);
 	file_data.class_name = get_class_name(file_data.file_lines);
 	file_data = find_methods(file_data)
-	#print("IN METHOD")
-	#print_values(file_data.in_methods)
-	#print("OUT METHOD")
-	#print_values(file_data.out_methods)
 	return file_data
 
 #################################
@@ -157,16 +194,32 @@ def	remove_semicolon(string):
 			result += char
 	return result
 
+
+
+def	write_cpp_file(file_data):
+	'''Write the cpp file'''
+	filename = file_data.class_name + ".cpp"
+	file = open(filename, "w")
+	write_header(file, "x")
+	file.write('#include "' + file_data.class_name + '"\n\n')
+	for method in file_data.in_methods:
+		file.write(method)
+		file.write("{\n\n}\n\n")
+	if file_data.out_methods != None:
+		file.write("\n// Other functions in " + file_data.filename + " outer class "
+		+ file_data.class_name + "\n\n")
+		for method in file_data.out_methods:
+			file.write(method)
+			file.write("{\n\n}\n\n")
+	file.close()
+
+
 def	file_generator(file_data):
 	'''Generate the main content of the CPP file'''
 	main_content = []
-	#file_data.out_methods = format_all_methods("OUT", file_data.out_methods, file_data.class_name)
-	#print_values(file_data.out_methods)
 	file_data.in_methods = format_all_methods("IN", file_data.in_methods, file_data.class_name)
-	print_values(file_data.in_methods)
-
-
-
+	file_data.out_methods = format_all_methods("OUT", file_data.out_methods, file_data.class_name)
+	write_cpp_file(file_data)
 
 
 #################################
@@ -180,5 +233,7 @@ if __name__ == '__main__':
 	print(f"Cpp generator from {file_data.filename}")
 	file_data = file_parser(file_data)
 	file_generator(file_data)
+	print("\n\t" + file_data.class_name + ".cpp generated from " + file_data.filename + " --> DONE <--")
+
 
 
