@@ -240,7 +240,7 @@ if __name__ == '__main__':
 		file_data.filename = p_parser.hpp_file
 		print(f"Cpp generator from {file_data.filename}")
 		file_data = file_parser(file_data)
-		#file_generator(file_data)
+		file_generator(file_data)
 		print("\n\t" + file_data.class_name + ".cpp generated from " + file_data.filename + " --> DONE <--")
 	else:
 		print("Please, insert a File.hpp file")
