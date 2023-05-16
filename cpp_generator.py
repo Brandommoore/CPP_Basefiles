@@ -60,17 +60,33 @@ def	find_methods(file_data):
 		if "{" in line or "}" in line:
 			bracket+=1
 		if ("(" in line and ")" in line) and bracket < 2:
-			print(f"Class methods {line}", end='')
+			f_data.in_methods.append(del_spaces_before_text(line))
 		if ("(" in line and ")" in line) and bracket >= 2:
-			print(f"OUT Class methods {line}", end='')
+			f_data.out_methods.append(del_spaces_before_text(line))
+	return f_data
 
+def del_spaces_before_text(input_string):
+	'''Return a string without spaces before the text'''
+	index = 0
+	while index < len(input_string) and input_string[index].isspace():
+		index += 1
+	modified_string = input_string[index:]
+	return modified_string
+
+def	print_values(values: list):
+	'''Print list of values'''
+	for val in values:
+		print(val, end='')
 
 def	file_parser(file_data):
 	'''Find class and methods and save it in file_data'''
 	file_data.file_lines = read_file(file_data.filename);
 	file_data.class_name = get_class_name(file_data.file_lines);
-	find_methods(file_data)
-
+	file_data = find_methods(file_data)
+	#print("IN METHOD")
+	#print_values(file_data.in_methods)
+	#print("OUT METHOD")
+	#print_values(file_data.out_methods)
 
 
 	#for line in file_lines:
