@@ -52,6 +52,13 @@ def	write_header(file, c_type):
 		file.write("\n")
 	file.write("\n")
 
+def	filename_checker(filename: str, file_ext: str):
+	'''Checks if the file extension is correct'''
+	split_name = filename.split('.')
+	if split_name[-1] == file_ext:
+		return 1
+	else:
+		return 0
 
 #################################
 ##	Program parser
@@ -229,11 +236,14 @@ def	file_generator(file_data):
 if __name__ == '__main__':
 	file_data = File_data()
 	p_parser = program_parser()
-	file_data.filename = p_parser.hpp_file
-	print(f"Cpp generator from {file_data.filename}")
-	file_data = file_parser(file_data)
-	file_generator(file_data)
-	print("\n\t" + file_data.class_name + ".cpp generated from " + file_data.filename + " --> DONE <--")
+	if filename_checker(p_parser.hpp_file, "hpp") == 1:
+		file_data.filename = p_parser.hpp_file
+		print(f"Cpp generator from {file_data.filename}")
+		file_data = file_parser(file_data)
+		#file_generator(file_data)
+		print("\n\t" + file_data.class_name + ".cpp generated from " + file_data.filename + " --> DONE <--")
+	else:
+		print("Please, insert a File.hpp file")
 
 
 
