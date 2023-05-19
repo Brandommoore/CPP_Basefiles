@@ -208,7 +208,7 @@ def	write_cpp_file(file_data):
 	filename = file_data.class_name + ".cpp"
 	file = open(filename, "w")
 	write_header(file, "x")
-	file.write('#include "' + file_data.class_name + '"\n\n')
+	file.write('#include "' + file_data.class_name + '.hpp"\n\n')
 	for method in file_data.in_methods:
 		file.write(method)
 		file.write("{\n\n}\n\n")
