@@ -35,19 +35,17 @@ def	print_header(file, c_type):
 def	makefile_gen(project_name):
 	mk_comps=[]
 	mk_name = 'NAME = ' + project_name
-	mk_src = 'SRC = ' + project_name + ".cpp"
+	mk_src = "SRC =\tmain.cpp \\\n\t\t" + project_name + ".cpp"
 	mk_head = 'HEAD = ' + project_name + ".hpp"
 	mk_comps.append(str(mk_name))
 	mk_comps.append(str(mk_src))
-	mk_comps.append(str(mk_head))
 	mk_comps.append('OBJ = $(SRC:%.cpp=%.o)')
-	mk_comps.append('CXX = clang++ -std=c++98 -pedantic')
-	mk_comps.append('CXXFLAGS = -Wall -Werror -Wextra')
-	mk_comps.append('CFNAME = -o $(NAME)')
+	mk_comps.append('CXX = clang++')
+	mk_comps.append('CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic')
 	mk_comps.append('all: $(NAME)')
-	mk_comps.append('$(NAME): $(OBJ) $(HEAD)\n\t$(CXX) $(CXXFLAGS) $(OBJ) $(CFNAME)')
+	mk_comps.append('$(NAME): $(OBJ)\n\t$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)')
 	mk_comps.append('clean:\n\trm -rf $(OBJ)')
-	mk_comps.append('fclean: clean\n\trm -rf $(OBJ) $(NAME)')
+	mk_comps.append('fclean: clean\n\trm -rf $(NAME)')
 	mk_comps.append('re: fclean all')
 	mk_comps.append('.PHONY: all clean fclean re')
 
@@ -82,10 +80,6 @@ def	hpp_generator(project_name):
 def	cpp_generator(project_name):
 	cpp_comps=[]
 	include_name = '#include "' + project_name + '.hpp"\n\n'
-	cpp_comps.append("int\tmain(int argc, char *argv[])\n")
-	cpp_comps.append("{\n\n")
-	cpp_comps.append("\t(void)argc;\n\t(void)argv;\n\treturn (0);\n")
-	cpp_comps.append("}\n")
 
 	filename = str(project_name + ".cpp")
 	file = open(filename, 'w')
@@ -95,6 +89,22 @@ def	cpp_generator(project_name):
 		file.write(component)
 	file.close()
 	print("\tCpp file done")
+
+def	main_generator(project_name):
+	cpp_comps=[]
+	include_name = '#include "' + project_name + '.hpp"\n\n'
+	cpp_comps.append("int\tmain(int argc, char *argv[])\n")
+	cpp_comps.append("{\n\n")
+	cpp_comps.append("\t(void)argc;\n\t(void)argv;\n\treturn (0);\n")
+	cpp_comps.append("}\n")
+
+	file = open("main.cpp", 'w')
+	print_header(file, 'x')
+	file.write(include_name)
+	for component in cpp_comps:
+		file.write(component)
+	file.close()
+	print("\tMain file done")
 
 def generator(args):
 	if args.M is True:
@@ -107,6 +117,7 @@ def generator(args):
 		makefile_gen(args.p_name)
 		hpp_generator(args.p_name)
 		cpp_generator(args.p_name)
+		main_generator(args.p_name)
 
 
 def parser():
